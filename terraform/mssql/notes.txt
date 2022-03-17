@@ -1,0 +1,38 @@
+CIS - one-to-one relo
+- one client for specific task
+person details
+dob
+
+
+
+
+client and 
+
+person and contact has the same attribute. difference they have different Unique ID
+
+
+
+what update insist to trigger the flow
+- new task (legal matter in CIS) - created by legal
+
+- SQL can call API via .NET core
+- SQL
+
+diagram
+
+just to paint a picture in my head of the solution, do you have a infrastructure diagram you could share?
+
+reverse proxy?
+
+
+VM SQL - why? - 
+
+Matters table only
+
+
+Break phases of testing into two
+- Test with dummy table
+	* Functionality testing
+
+- Test with actual table given by client
+	* POC

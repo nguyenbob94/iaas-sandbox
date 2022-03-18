@@ -12,7 +12,7 @@ param <parameter-name> <parameter-data-type> = <default-value>
 // Varaibles are used to to represent an expression into a string. They work with functions to create a unique string
 var <variable-name> = <variable-value>
 //Examples
-var uniqueId = uniqueString(resourceGoup().id, deployment().name)
+var uniqueId = uniqueString(resourceGroup().id, deployment().name)
 
 //Take only the 5 characters of the UniqueID variable
 var uniqueIdShort = take(uniqueId,5)

@@ -3,7 +3,7 @@ param(
   [string]$RGName = "rg-simpledeploy",
   [string]$VMUsername,
   [string]$VMPassword,
-  [string]$VMName = "JUMPY01",
+  [string]$VMName,
   [string]$Location,
   [string]$BicepTemplatePath = ".\deploybasicinfra.bicep"
 )
@@ -35,13 +35,30 @@ function Deploy-BicepTemplate
   }
 
   # Initial bicep deployment
-  New-AzResourceGroupDeployment `
-  -Verbose `
-  -ResourceGroupName $RGName `
-  -TemplateFile $BicepTemplatePath `
-  -VMUsername $VMUsername `
-  -VMPassword $PasswordSecure
-  -Mode Complete
+  #If default value is defined, or else overwrite it.
+  Write-Output "VMName is $VMName"
+
+  if($VMName -ne "JUMPY01")
+  {
+    New-AzResourceGroupDeployment `
+    -Verbose `
+    -ResourceGroupName $RGName `
+    -TemplateFile $BicepTemplatePath `
+    -VMUsername $VMUsername `
+    -VMPassword $PasswordSecure `
+    -VMName $VMName `
+    -Mode Complete
+  }
+  else
+  {
+    New-AzResourceGroupDeployment `
+    -Verbose `
+    -ResourceGroupName $RGName `
+    -TemplateFile $BicepTemplatePath `
+    -VMUsername $VMUsername `
+    -VMPassword $PasswordSecure `
+    -Mode Complete
+  }
 }
 
 # Prompt for server admin username and password

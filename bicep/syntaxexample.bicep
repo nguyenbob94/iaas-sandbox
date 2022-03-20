@@ -20,7 +20,8 @@ var uniqueIdShort = take(uniqueId,5)
 //Conbining variables with strings
 var combinedString = '${UniqueId}Somerandomstring'
 
-// Don't need to say much  here
+// For a list of resources, check https://docs.microsoft.com/en-us/azure/templates/
+// symbolic name only accepts alphabetical characters
 resource <resource-symbolic-name> '<resource-type>@<api-version>' = {
   <resource-properties>
 }

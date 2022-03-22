@@ -2,34 +2,34 @@ targetScope = 'resourceGroup'
 
 // Use params where possible. This helps declare and reference variables
 // Global variables
-param DefaultName string = 'SimpleDeploy'
-param Location string = 'AustraliaEast'
-param VnetPrefix string = '10.1.0.0/16'
-param SubnetPrefix string = '10.1.0.0/24'
-param VMName string = 'JUMPY01'
+param defaultCallsign string = 'SimpleDeploy'
+param location string = 'AustraliaEast'
+param vnetPrefix string = '10.1.0.0/16'
+param subnetPrefix string = '10.1.0.0/24'
+param vmName string = 'JUMPY01'
 
 //Credentials params for VM. Required to be manually inputed
-param VMUsername string
+param vmUsername string
 
 @minLength(8)
 @secure()
-param VMPassword string
+param vmPassword string
 
 
 // Always use variables when possible. It helps with referencing resource ids
-var vnetname = 'vnet-${DefaultName}'
-var subnetname = 'subnet-${DefaultName}'
-var pubipname = 'pubip-${DefaultName}'
-var intname = 'int-${DefaultName}'
-var nsgname = 'nsg-${DefaultName}'
+var vnetcallsign = 'vnet-${defaultCallsign}'
+var subnetcallsign = 'subnet-${defaultCallsign}'
+var pubipcallsign = 'pubip-${defaultCallsign}'
+var intcallsign = 'int-${defaultCallsign}'
+var nsgcallsign = 'nsg-${defaultCallsign}'
 
 // References
 // When referencing resources to a variable, use the resource symbolic name
-var subnetref = '${vnetSimpleDeploy.id}/subnets/${subnetname}'
+var subnetref = '${vnetSimpleDeploy.id}/subnets/${subnetcallsign}'
 
 resource pubIP 'Microsoft.Network/publicIPAddresses@2021-05-01' = {
-  name: pubipname 
-  location: Location
+  name: pubipcallsign
+  location: location
   properties: {
     publicIPAllocationMethod: 'Dynamic'
     publicIPAddressVersion: 'IPv4'
@@ -40,19 +40,19 @@ resource pubIP 'Microsoft.Network/publicIPAddresses@2021-05-01' = {
 }
 
 resource vnetSimpleDeploy 'Microsoft.Network/virtualNetworks@2021-05-01' = {
-  name: vnetname
-  location: Location
+  name: vnetcallsign
+  location: location
   properties: {
     addressSpace: {
       addressPrefixes: [
-        VnetPrefix
+        vnetPrefix
       ]
     }
     subnets: [
       {
-        name: subnetname
+        name: subnetcallsign
         properties: {
-        addressPrefix: SubnetPrefix
+        addressPrefix: subnetPrefix
         }
       }
     ]
@@ -60,8 +60,8 @@ resource vnetSimpleDeploy 'Microsoft.Network/virtualNetworks@2021-05-01' = {
 }
 
 resource nsgSimpleDeploy 'Microsoft.Network/networkSecurityGroups@2021-05-01' = {
-  name: nsgname
-  location: Location
+  name: nsgcallsign
+  location: location
   properties: {
     securityRules: [
       {
@@ -87,8 +87,8 @@ resource nsgSimpleDeploy 'Microsoft.Network/networkSecurityGroups@2021-05-01' = 
 }
 
 resource nicSimpleDeploy 'Microsoft.Network/networkInterfaces@2021-05-01' = {
-  name: intname
-  location: Location
+  name: intcallsign
+  location: location
   properties: {
     ipConfigurations: [
       {
@@ -111,13 +111,13 @@ resource nicSimpleDeploy 'Microsoft.Network/networkInterfaces@2021-05-01' = {
 }
 
 resource vmJumpy01 'Microsoft.Compute/virtualMachines@2021-11-01' = {
-  name: VMName
-  location: Location
+  name: vmName
+  location: location
   properties: {
     osProfile: {
-      computerName: VMName
-      adminUsername: VMUsername 
-      adminPassword: VMPassword
+      computerName: vmName
+      adminUsername: vmUsername 
+      adminPassword: vmPassword
     }
     hardwareProfile: {
       vmSize: 'Standard_B1s'

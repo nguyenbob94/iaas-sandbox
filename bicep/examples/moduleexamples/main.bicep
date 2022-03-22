@@ -1,23 +1,23 @@
 targetScope = 'subscription'
 
-param DefaultName string = 'ModulesDemo'
-param RGName string = 'rg-modulesdemo'
-param Location string = 'AustraliaEast'
-param VnetPrefix string = '10.0.0.0/16'
+param defaultCallsign string = 'ModulesDemo'
+param rGName string = 'rg-modulesdemo'
+param location string = 'AustraliaEast'
+param vnetPrefix string = '10.0.0.0/16'
 
-var vnetname = 'vnet-${DefaultName}'
+var vnetCallsign = 'vnet-${defaultCallsign}'
 
 resource rG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: RGName
-  location: Location
+  name: rGName
+  location: location
 }
 
 module moduleVnet './modules/networking/vnet.bicep' = {
   name: 'vNetDeploy'
   scope: rG
   params: {
-    vnetName: vnetname
-    vnetPrefixes: VnetPrefix
-    location: Location
+    vnetName: vnetCallsign
+    vnetPrefixes: vnetPrefix
+    location: location
   }
 }

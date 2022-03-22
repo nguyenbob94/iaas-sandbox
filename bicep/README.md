@@ -81,5 +81,15 @@ For a list of functions, check https://docs.microsoft.com/en-us/azure/azure-reso
 #### Unique characters
 Unique characters are strings based on from subscription names, resource groups. It is not random.
 
+## Naming conventions and code best practices
+
+#### Params: 
+- should follow the format of begining with a lower case letter then capital at the beginning of each word
+- should not have the word `name` in it. Symbolic names are meant to represent source
+- Use comments to add description to params
+- Add min max length where possible
+
+#### Resource definitions
+- Avoid referencing IDs. Use the resource symbolic name where possible
 
 

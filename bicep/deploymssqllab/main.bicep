@@ -1,23 +1,28 @@
 targetScope = 'subscription'
 
 param defaultLabel string = 'mssqllab'
-param location string = 'AustraliaEast'
+
+// ResourceGroup params. Left blank intentionally as default details are passed through via Powershell Script
+param rgName string
+param location string
 
 param vnetAddressPrefix string = '10.0.0.0/20'
 param subnetAddressPrefix string = '10.0.0.0/24'
 param pubIPName string = 'pubIP-${defaultLabel}'
 
-param vmHostName string = 'mssqlserver01'
-param vmAdminUser string = 'vmadminuser'
+// VM Detail params. Left blank intentionally as default details are passed through via Powershell Script
+param vmHostName string 
+param vmAdminUser string
 
-var rgName = 'rg-${defaultLabel}'
+@minLength(8)
+@secure()
+param vmAdminPassword string
+
 var vNetName = 'vnet-${defaultLabel}'
 //var subnetName = 'subnet-${defaultLabel}'
 var nicName = 'nic-${defaultLabel}'
 var nsgName = 'nsg-${defaultLabel}'
 var nsgRuleName = 'AllowInboundServices'
-
-
 
 resource rG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: rgName
@@ -39,13 +44,16 @@ module networkModules './modules/network.bicep' = {
   }
 }
 
-module asdafgfafg './modules/compute.bicep' = {
+module computeModules './modules/compute.bicep' = {
   name: 'deployComputeModules'
   scope: rG
   params: {
     vmHostName: vmHostName
+    location: location
+    vmAdminUser: vmAdminUser
+    vmAdminPassword: vmAdminPassword
     nicid: networkModules.outputs.nicIDForVMModule
-
   }
-
 }
+
+output publicIPAddressOutput string = networkModules.outputs.publicIPAddressOutput

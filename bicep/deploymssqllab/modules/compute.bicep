@@ -2,10 +2,10 @@ param location string
 param nicid string
 param vmHostName string 
 param vmAdminUser string
-param vmAdminPassword 
 
-
-
+@minLength(8)
+@secure()
+param vmAdminPassword string
 
 resource vm 'Microsoft.Compute/virtualMachines@2021-11-01' = {
   name: vmHostName
@@ -43,9 +43,28 @@ resource vm 'Microsoft.Compute/virtualMachines@2021-11-01' = {
   }
 }
 
-
-Standard_DS2_v2
-
-publisher microsoftsqlserver
-offer sql2019-ws2019
-sku  sqldev-gen2    
+resource mssql 'Microsoft.SqlVirtualMachine/sqlVirtualMachines@2021-11-01-preview' = {
+  name: vmHostName
+  location: location
+  properties: {
+    serverConfigurationsManagementSettings: {
+      additionalFeaturesServerConfigurations: {
+        isRServicesEnabled: true
+      }
+      sqlConnectivityUpdateSettings: {
+        connectivityType: 'PRIVATE'
+        port: 1433
+        sqlAuthUpdatePassword: vmAdminPassword
+        sqlAuthUpdateUserName: vmAdminUser
+      }
+    }
+    sqlServerLicenseType: 'PAYG'
+    sqlManagement: 'Full'
+    virtualMachineResourceId: vm.id
+    wsfcDomainCredentials: {
+      clusterBootstrapAccountPassword: vmAdminPassword
+      clusterOperatorAccountPassword: vmAdminPassword
+      sqlServiceAccountPassword: vmAdminPassword
+    }
+  }
+}

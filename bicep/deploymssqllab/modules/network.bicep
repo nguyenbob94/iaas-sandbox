@@ -38,7 +38,7 @@ resource pubIP 'Microsoft.Network/publicIPAddresses@2021-05-01' = {
   name: pubIPName
   location: location
   properties: {
-    publicIPAllocationMethod: 'Dynamic'
+    publicIPAllocationMethod: 'Static'
     publicIPAddressVersion: 'IPv4'
   }
   sku: {
@@ -105,5 +105,5 @@ resource nic 'Microsoft.Network/networkInterfaces@2021-05-01' = {
 //Output nic id to pass onto vm module
 output nicIDForVMModule string = nic.id
 
-  
-
+//Output public IP Address of VM
+output publicIPAddressOutput string = pubIP.properties.ipAddress

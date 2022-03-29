@@ -47,6 +47,7 @@ resource nicSimpleDeploy 'Microsoft.Network/networkInterfaces@2021-05-01' = {
         properties: {
           subnet: {
             id: subnetref
+            // vnet.properties.subnets[0].id // also works too. Remember to use index if there is an array
           }
         }
       }

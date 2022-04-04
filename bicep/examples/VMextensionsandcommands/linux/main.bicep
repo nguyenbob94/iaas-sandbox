@@ -58,6 +58,7 @@ resource runCommandVM 'Microsoft.Compute/virtualMachines/runCommands@2021-11-01'
       }
     ]
     source: {
+      commandId: 'RunShellScript'
       script: scriptContent
     }
   }

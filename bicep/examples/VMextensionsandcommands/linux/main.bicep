@@ -43,6 +43,8 @@ resource linuxVM 'Microsoft.Compute/virtualMachines@2021-11-01' = {
   }
 }
 
+// Don't bother, this will only work when it decides to.
+// 90% of the time it doesnt deploy, 40% of the time it will deploy and miss out commands. 10% of the time it will actually work
 resource runCommandVM 'Microsoft.Compute/virtualMachines/runCommands@2021-11-01' = {
   name: runCommandName
   location: location
